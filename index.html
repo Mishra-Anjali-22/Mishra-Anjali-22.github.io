@@ -62,7 +62,13 @@
     background: none; border: 1px solid var(--line); color: var(--muted);
     width: 34px; height: 34px; border-radius: 8px; cursor: pointer; font-size: 15px;
   }
-  @media (max-width: 720px) { .links a.hide-sm { display: none; } }
+  .links a.active { color: var(--accent); }
+  @media (max-width: 720px) {
+    nav .wrap { height: auto; flex-wrap: wrap; padding-top: 10px; }
+    .links { order: 3; width: 100%; overflow-x: auto; gap: 18px; padding: 8px 0 10px; scrollbar-width: none; }
+    .links::-webkit-scrollbar { display: none; }
+    .theme-btn { position: absolute; top: 10px; right: 16px; }
+  }
 
   /* hero */
   header.hero { padding: 72px 0 48px; }
@@ -98,7 +104,8 @@
   .kpi span { font-size: 13px; color: var(--muted); }
 
   /* sections */
-  section { padding: 56px 0; border-top: 1px solid var(--line); }
+  section { padding: 56px 0; border-top: 1px solid var(--line); scroll-margin-top: 60px; }
+  @media (max-width: 720px) { section { scroll-margin-top: 96px; } }
   .sec-head { display: flex; align-items: baseline; gap: 14px; margin-bottom: 28px; }
   .sec-head .num { font: 500 13px "JetBrains Mono", monospace; color: var(--accent); }
   h2 { font-size: 28px; letter-spacing: -.02em; margin: 0; }
@@ -139,6 +146,39 @@
   .job li b { color: var(--text); font-weight: 600; }
 
   /* projects */
+  .sec-intro { color: var(--muted); margin: -14px 0 28px; max-width: 640px; }
+  .featured {
+    background: var(--surface); border: 1px solid var(--line); border-radius: 16px;
+    box-shadow: var(--shadow); overflow: hidden; margin-bottom: 20px;
+  }
+  .featured .top { display: grid; grid-template-columns: 1fr 1.35fr; }
+  @media (max-width: 900px) { .featured .top { grid-template-columns: 1fr; } }
+  .featured .info { padding: 26px; display: flex; flex-direction: column; }
+  .badge {
+    align-self: flex-start; font: 600 11.5px Inter, sans-serif; letter-spacing: .06em; text-transform: uppercase;
+    color: var(--accent); background: var(--accent-soft); padding: 3px 10px; border-radius: 999px; margin-bottom: 12px;
+  }
+  .featured h3 { font-size: 22px; }
+  .featured .info > p { color: var(--muted); margin: 8px 0 16px; font-size: 15px; }
+  .findings { list-style: none; padding: 0; margin: 0 0 18px; display: grid; gap: 8px; }
+  .findings li { font-size: 14.5px; color: var(--muted); padding-left: 22px; position: relative; }
+  .findings li::before { content: "↗"; position: absolute; left: 0; color: var(--good); font-weight: 700; }
+  .findings b { color: var(--text); font-weight: 600; }
+  .gallery { background: var(--bg); border-left: 1px solid var(--line); padding: 16px; display: flex; flex-direction: column; gap: 12px; }
+  @media (max-width: 900px) { .gallery { border-left: 0; border-top: 1px solid var(--line); } }
+  .tabs { display: flex; gap: 6px; flex-wrap: wrap; }
+  .tabs button {
+    font: 500 13px Inter, sans-serif; padding: 6px 12px; border-radius: 8px; cursor: pointer;
+    border: 1px solid var(--line); background: var(--surface); color: var(--muted);
+  }
+  .tabs button[aria-selected="true"] { background: var(--accent); border-color: var(--accent); color: #fff; }
+  .shot {
+    display: block; width: 100%; border: 1px solid var(--line); border-radius: 10px; overflow: hidden;
+    background: var(--surface); cursor: zoom-in; padding: 0;
+  }
+  .shot img { display: block; width: 100%; aspect-ratio: 16/9; object-fit: cover; object-position: top left; }
+  .shot-cap { font-size: 12.5px; color: var(--muted); text-align: center; }
+
   .projects { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
   @media (max-width: 900px) { .projects { grid-template-columns: repeat(2, 1fr); } }
   @media (max-width: 600px) { .projects { grid-template-columns: 1fr; } }
@@ -148,17 +188,37 @@
     transition: transform .15s, border-color .15s;
   }
   .proj:hover { transform: translateY(-2px); border-color: var(--accent); }
-  .thumb {
-    aspect-ratio: 16/9; background: var(--accent-soft); display: flex; align-items: flex-end;
-    gap: 6px; padding: 18px 18px 0; border-bottom: 1px solid var(--line);
+  .pages { background: var(--bg); border-bottom: 1px solid var(--line); padding: 16px 18px; }
+  .pages .lbl { font: 500 11.5px "JetBrains Mono", monospace; color: var(--muted); margin-bottom: 8px; display: flex; justify-content: space-between; }
+  .pages ol { margin: 0; padding: 0; list-style: none; display: grid; gap: 5px; }
+  .pages li {
+    font-size: 13px; background: var(--surface); border: 1px solid var(--line); border-radius: 6px;
+    padding: 5px 10px; display: flex; gap: 8px; align-items: center; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
   }
-  .thumb img { width: 100%; height: 100%; object-fit: cover; }
-  .thumb i { flex: 1; background: var(--accent); border-radius: 4px 4px 0 0; opacity: .8; }
+  .pages li::before { content: ""; flex: none; width: 8px; height: 8px; border-radius: 2px; background: var(--accent); opacity: .75; }
   .proj .body { padding: 18px; display: flex; flex-direction: column; flex: 1; }
   .proj .stat { font-size: 13px; color: var(--good); font-weight: 600; margin: 4px 0 8px; }
   .proj p { margin: 0 0 14px; color: var(--muted); font-size: 14.5px; flex: 1; }
-  .proj .tags { margin-bottom: 14px; }
-  .proj .actions { display: flex; gap: 16px; font-size: 14px; font-weight: 600; }
+  .proj .tags { margin-bottom: 16px; }
+  .actions { display: flex; flex-wrap: wrap; gap: 8px; margin-top: auto; }
+  .actions a {
+    font-size: 13.5px; font-weight: 600; padding: 7px 12px; border-radius: 8px;
+    border: 1px solid var(--line); color: var(--text); background: var(--surface);
+  }
+  .actions a:hover { text-decoration: none; border-color: var(--accent); color: var(--accent); }
+  .actions a.main { background: var(--accent); border-color: var(--accent); color: #fff; }
+  .actions a.main:hover { color: #fff; filter: brightness(1.08); }
+  .more { text-align: center; margin-top: 24px; font-size: 14.5px; }
+
+  /* lightbox */
+  dialog#lightbox { border: 0; padding: 0; background: transparent; max-width: min(1400px, 96vw); }
+  dialog#lightbox::backdrop { background: rgba(8,10,14,.85); }
+  dialog#lightbox img { display: block; max-width: 100%; max-height: 86vh; border-radius: 10px; }
+  dialog#lightbox p { color: #e8eaef; text-align: center; font-size: 14px; margin: 10px 0 0; }
+  dialog#lightbox button {
+    position: fixed; top: 16px; right: 16px; width: 40px; height: 40px; border-radius: 50%;
+    border: 0; background: #fff; color: #14171f; font-size: 20px; cursor: pointer;
+  }
 
   /* edu + certs */
   .two { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
@@ -184,9 +244,11 @@
   <div class="wrap">
     <a class="brand" href="#top">Anjali Mishra</a>
     <div class="links">
-      <a class="hide-sm" href="#about">About</a>
-      <a class="hide-sm" href="#experience">Experience</a>
+      <a href="#about">About</a>
+      <a href="#skills">Skills</a>
+      <a href="#experience">Experience</a>
       <a href="#projects">Projects</a>
+      <a href="#education">Education</a>
       <a href="#contact">Contact</a>
       <button class="theme-btn" id="theme" aria-label="Toggle dark mode">◐</button>
     </div>
@@ -202,6 +264,7 @@
       <a class="btn primary" href="#projects">View my work →</a>
       <a class="btn" href="Anjali_Mishra_Resume.pdf" download>Download resume</a>
       <a class="btn" href="https://linkedin.com/in/anjali-mishra-44820b1a8" target="_blank" rel="noopener">LinkedIn</a>
+      <a class="btn" href="https://github.com/Mishra-Anjali-22" target="_blank" rel="noopener">GitHub</a>
     </div>
 
     <div class="kpis">
@@ -322,47 +385,116 @@
     </div>
   </section>
 
-  <!--
-    PROJECTS — replace each "#" link with your real links:
-      data-github   → GitHub repo (SQL scripts, notebooks, .pbix)
-      data-live     → Power BI "Publish to web" link, Tableau Public, or Looker Studio report
-    Replace the bar-chart placeholder with a dashboard screenshot:
-      <div class="thumb"><img src="images/bank-loan.png" alt="Bank Loan dashboard"></div>
-  -->
   <section id="projects">
     <div class="sec-head"><span class="num">04</span><h2>Featured Projects</h2></div>
+    <p class="sec-intro">End-to-end analytics projects — from SQL data modelling to interactive dashboards. All source files are on <a href="https://github.com/Mishra-Anjali-22/Data-Analytics-Projects" target="_blank" rel="noopener">GitHub</a>.</p>
+
+    <article class="featured">
+      <div class="top">
+        <div class="info">
+          <span class="badge">Case study · Power BI · Tableau · Excel · SQL</span>
+          <h3>Kickstarter Crowdfunding Analysis</h3>
+          <p>What makes a crowdfunding campaign succeed? I analysed 300K+ Kickstarter projects (2009–2019) and built the same story in Excel, Power BI and Tableau using a star-schema data model.</p>
+          <ul class="findings">
+            <li><b>38% success rate</b> — 51% of projects fail, ~9% are cancelled</li>
+            <li><b>Goals under $10K</b> succeed ~46% of the time; very large goals rarely do</li>
+            <li><b>Chiptune, Residencies, Dance</b> lead with 65%+ success rates</li>
+            <li><b>Timing matters</b> — success peaks in October; Mon/Tue launches beat weekends</li>
+          </ul>
+          <div class="actions">
+            <a class="main" href="https://github.com/Mishra-Anjali-22/Data-Analytics-Projects/tree/main/02-Kickstarter-Crowdfunding" target="_blank" rel="noopener">Full case study ↗</a>
+            <a href="https://github.com/Mishra-Anjali-22/Data-Analytics-Projects/blob/main/02-Kickstarter-Crowdfunding/sql/kickstarter_data_model.sql" target="_blank" rel="noopener">SQL ↗</a>
+          </div>
+        </div>
+        <div class="gallery">
+          <div class="tabs" role="tablist" aria-label="Kickstarter dashboards">
+            <button role="tab" aria-selected="true" data-src="images/kickstarter-powerbi-dashboard.jpg" data-cap="Power BI — main dashboard with KPI cards and slicers">Power BI</button>
+            <button role="tab" aria-selected="false" data-src="images/kickstarter-powerbi-exploratory.jpg" data-cap="Power BI — exploratory visuals: goal range, monthly success rate, pledges">Power BI · Explore</button>
+            <button role="tab" aria-selected="false" data-src="images/kickstarter-tableau-dashboard.jpg" data-cap="Tableau — overview dashboard">Tableau</button>
+            <button role="tab" aria-selected="false" data-src="images/kickstarter-tableau-trend-analysis.jpg" data-cap="Tableau — trend analysis by category, goal range and weekday">Tableau · Trends</button>
+            <button role="tab" aria-selected="false" data-src="images/kickstarter-excel-dashboard.jpg" data-cap="Excel — pivot-table dashboard with slicers">Excel</button>
+            <button role="tab" aria-selected="false" data-src="images/kickstarter-data-model.jpg" data-cap="Star-schema data model: Project fact with Category, Creator, Location and Calendar dimensions">Data model</button>
+          </div>
+          <button class="shot" id="ks-shot" aria-label="Enlarge screenshot">
+            <img id="ks-img" src="images/kickstarter-powerbi-dashboard.jpg" alt="Power BI — main dashboard with KPI cards and slicers">
+          </button>
+          <div class="shot-cap" id="ks-cap">Power BI — main dashboard with KPI cards and slicers · click to enlarge</div>
+        </div>
+      </div>
+    </article>
+
     <div class="projects">
       <article class="proj">
-        <div class="thumb"><i style="height:45%"></i><i style="height:70%"></i><i style="height:55%"></i><i style="height:90%"></i><i style="height:65%"></i></div>
+        <div class="pages">
+          <div class="lbl"><span>REPORT PAGES</span><span>Power BI</span></div>
+          <ol>
+            <li>Total Loan Amount by Year</li>
+            <li>Verification Status vs Payment</li>
+            <li>State-wise Loan Status</li>
+            <li>Loan Amount by Month</li>
+            <li>Home Ownership vs Last Payment</li>
+          </ol>
+        </div>
         <div class="body">
           <h3>Bank Loan Analytics</h3>
-          <div class="stat">538,000+ loan records</div>
-          <p>Risk dashboard tracking loan volume, charge-off rates and verification KPIs, plus default-prediction models (Logistic Regression, Random Forest) with segmented risk insights for lending policy.</p>
-          <div class="tags"><span class="tag">SQL</span><span class="tag">Python</span><span class="tag">Power BI</span></div>
-          <div class="actions"><a href="#">Live dashboard ↗</a><a href="#">GitHub ↗</a></div>
+          <div class="stat">SQL view + 8-page Power BI report</div>
+          <p>Joined loan and payment tables in MySQL, then answered five lending questions — growth by year, revolving balance by grade, verified vs non-verified repayment, and state and home-ownership patterns.</p>
+          <div class="tags"><span class="tag">MySQL</span><span class="tag">Power BI</span><span class="tag">DAX</span></div>
+          <div class="actions">
+            <a class="main" href="https://github.com/Mishra-Anjali-22/Data-Analytics-Projects/tree/main/01-Bank-Loan-Analytics" target="_blank" rel="noopener">View project ↗</a>
+            <a href="https://github.com/Mishra-Anjali-22/Data-Analytics-Projects/raw/main/01-Bank-Loan-Analytics/Bank_Loan_Analytics.pbix">.pbix</a>
+            <a href="https://github.com/Mishra-Anjali-22/Data-Analytics-Projects/blob/main/01-Bank-Loan-Analytics/sql/bank_loan_analysis.sql" target="_blank" rel="noopener">SQL</a>
+          </div>
         </div>
       </article>
+
       <article class="proj">
-        <div class="thumb"><i style="height:35%"></i><i style="height:50%"></i><i style="height:48%"></i><i style="height:68%"></i><i style="height:85%"></i></div>
+        <div class="pages">
+          <div class="lbl"><span>DASHBOARD VISUALS</span><span>Power BI</span></div>
+          <ol>
+            <li>Revenue &amp; Sales Qty KPI cards</li>
+            <li>Revenue by Market</li>
+            <li>Sales Qty by Market</li>
+            <li>Top 5 Customers &amp; Products</li>
+            <li>Revenue Trend + date slicers</li>
+          </ol>
+        </div>
         <div class="body">
-          <h3>Sales Insights Analysis</h3>
-          <div class="stat">20% faster reporting</div>
-          <p>Automated KPI dashboards over 50,000+ sales records, with time-series forecasting to model revenue trends and improve demand planning.</p>
-          <div class="tags"><span class="tag">Tableau</span><span class="tag">Excel</span><span class="tag">Python</span></div>
-          <div class="actions"><a href="#">Live dashboard ↗</a><a href="#">GitHub ↗</a></div>
+          <h3>Sales Insights</h3>
+          <div class="stat">One-page executive sales view</div>
+          <p>Sales dashboard for a hardware business selling across Indian markets — shows where revenue comes from, who the top customers and products are, and how revenue trends over time.</p>
+          <div class="tags"><span class="tag">Power BI</span><span class="tag">DAX</span><span class="tag">Data Modelling</span></div>
+          <div class="actions">
+            <a class="main" href="https://github.com/Mishra-Anjali-22/Data-Analytics-Projects/tree/main/03-Sales-Insights" target="_blank" rel="noopener">View project ↗</a>
+            <a href="https://github.com/Mishra-Anjali-22/Data-Analytics-Projects/raw/main/03-Sales-Insights/Sales_Insights.pbix">.pbix</a>
+          </div>
         </div>
       </article>
+
       <article class="proj">
-        <div class="thumb"><i style="height:60%"></i><i style="height:40%"></i><i style="height:80%"></i><i style="height:52%"></i><i style="height:72%"></i></div>
+        <div class="pages">
+          <div class="lbl"><span>WORKSHEETS</span><span>Tableau</span></div>
+          <ol>
+            <li>KPIs: Sales, Profit Margin, Return Rate</li>
+            <li>Map by State</li>
+            <li>Sales Trend &amp; Segment</li>
+            <li>Category → Sub-category drill</li>
+            <li>Top 5 Products (rank calc)</li>
+          </ol>
+        </div>
         <div class="body">
-          <h3>Kickstarter Crowdfunding</h3>
-          <div class="stat">100,000+ campaigns</div>
-          <p>Multi-tool performance dashboards and a classification model predicting campaign success, identifying the key drivers behind funded projects.</p>
-          <div class="tags"><span class="tag">SQL</span><span class="tag">Python</span><span class="tag">Tableau</span><span class="tag">Power BI</span></div>
-          <div class="actions"><a href="#">Live dashboard ↗</a><a href="#">GitHub ↗</a></div>
+          <h3>Superstore Sales Dashboard</h3>
+          <div class="stat">Parameter-driven: Sales / Profit / Orders</div>
+          <p>Interactive Tableau report on Superstore USA orders and returns, with a parameter to switch every view between sales, profit and order count, plus category-to-sub-category filter actions.</p>
+          <div class="tags"><span class="tag">Tableau</span><span class="tag">Parameters</span><span class="tag">Calculated Fields</span></div>
+          <div class="actions">
+            <a class="main" href="https://github.com/Mishra-Anjali-22/Data-Analytics-Projects/tree/main/04-Superstore-Sales-Tableau" target="_blank" rel="noopener">View project ↗</a>
+            <a href="https://github.com/Mishra-Anjali-22/Data-Analytics-Projects/raw/main/04-Superstore-Sales-Tableau/Superstore_Sales_Dashboard.twbx">.twbx</a>
+          </div>
         </div>
       </article>
     </div>
+    <p class="more"><a href="https://github.com/Mishra-Anjali-22/Data-Analytics-Projects" target="_blank" rel="noopener">Browse all project files on GitHub →</a></p>
   </section>
 
   <section id="education">
@@ -389,12 +521,19 @@
     <div class="cta">
       <a class="btn primary" href="mailto:mishraanjali.official@gmail.com">mishraanjali.official@gmail.com</a>
       <a class="btn" href="https://linkedin.com/in/anjali-mishra-44820b1a8" target="_blank" rel="noopener">LinkedIn</a>
+      <a class="btn" href="https://github.com/Mishra-Anjali-22" target="_blank" rel="noopener">GitHub</a>
       <a class="btn" href="Anjali_Mishra_Resume.pdf" download>Resume (PDF)</a>
     </div>
   </section>
 </main>
 
 <footer>© 2026 Anjali Mishra · Pune, India</footer>
+
+<dialog id="lightbox" aria-label="Screenshot">
+  <button id="lb-close" aria-label="Close">×</button>
+  <img id="lb-img" alt="">
+  <p id="lb-cap"></p>
+</dialog>
 
 <script>
   const root = document.documentElement, btn = document.getElementById('theme');
@@ -404,6 +543,32 @@
     root.dataset.theme = dark ? 'light' : 'dark';
     try { localStorage.setItem('theme', root.dataset.theme); } catch (e) {}
   });
+
+  // Kickstarter screenshot tabs
+  const ksImg = document.getElementById('ks-img'), ksCap = document.getElementById('ks-cap');
+  document.querySelectorAll('.tabs button').forEach(tab => tab.addEventListener('click', () => {
+    document.querySelectorAll('.tabs button').forEach(t => t.setAttribute('aria-selected', t === tab));
+    ksImg.src = tab.dataset.src;
+    ksImg.alt = tab.dataset.cap;
+    ksCap.textContent = tab.dataset.cap + ' · click to enlarge';
+  }));
+
+  // Lightbox
+  const lb = document.getElementById('lightbox');
+  document.getElementById('ks-shot').addEventListener('click', () => {
+    document.getElementById('lb-img').src = ksImg.src;
+    document.getElementById('lb-cap').textContent = ksImg.alt;
+    lb.showModal();
+  });
+  document.getElementById('lb-close').addEventListener('click', () => lb.close());
+  lb.addEventListener('click', e => { if (e.target === lb) lb.close(); });
+
+  // Highlight current section in nav
+  const navLinks = [...document.querySelectorAll('.links a')];
+  const navObserver = new IntersectionObserver(entries => entries.forEach(e => {
+    if (e.isIntersecting) navLinks.forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#' + e.target.id));
+  }), { rootMargin: '-45% 0px -50% 0px' });
+  document.querySelectorAll('section[id]').forEach(s => navObserver.observe(s));
 </script>
 </body>
 </html>
